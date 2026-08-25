@@ -19,7 +19,7 @@ from matplotlib.patches import PathPatch, Wedge
 from matplotlib.path import Path as MplPath
 from pyspark.sql import functions as F
 
-from pipelines.config import GOLD_DIR, SILVER, get_spark
+from pipelines.config import GOLD_DIR, SILVER, SITE_DIR, get_spark
 
 ACCENT = "#fb8500"
 DARK = "#023047"
@@ -229,7 +229,7 @@ TPL = """<!DOCTYPE html>
   <div class="kpis">{kpis}</div>
   {sections}
 </main>
-<footer>Pipeline medallion : make all &nbsp;•&nbsp; bronze → silver → gold &nbsp;•&nbsp; source : NYC TLC &amp; Open-Meteo</footer>
+<footer>Pipeline medallion : make all &nbsp;•&nbsp; bronze → silver → gold &nbsp;•&nbsp; source : NYC TLC &amp; Open-Meteo &nbsp;•&nbsp; <a href="https://github.com/Alaeddinesoufiane12/NYC_Taxi" style="color:#7f8c8d">code source</a></footer>
 </body></html>"""
 
 
@@ -407,6 +407,12 @@ GROUP BY 1, 2 ORDER BY courses DESC LIMIT 10""").toPandas()
     out = GOLD_DIR / "insights.html"
     out.write_text(html, encoding="utf-8")
     print(f"rapport écrit : {out} ({out.stat().st_size / 1024:.0f} Ko)")
+
+    # copie pour le déploiement statique Vercel (site/index.html, versionné dans git)
+    SITE_DIR.mkdir(parents=True, exist_ok=True)
+    site = SITE_DIR / "index.html"
+    site.write_text(html, encoding="utf-8")
+    print(f"site Vercel  : {site}")
 
     spark.stop()
     return 0

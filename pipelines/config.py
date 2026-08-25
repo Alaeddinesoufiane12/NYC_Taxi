@@ -13,6 +13,7 @@ DATALAKE = BASE / "datalake"
 BRONZE = DATALAKE / "bronze"
 SILVER = DATALAKE / "silver"
 GOLD_DIR = DATALAKE / "gold"
+SITE_DIR = BASE / "site"                  # rapport HTML déployé sur Vercel (index.html)
 REF_DIR = DATALAKE / "ref"
 NOTEBOOKS_DIR = BASE / "notebooks"
 
