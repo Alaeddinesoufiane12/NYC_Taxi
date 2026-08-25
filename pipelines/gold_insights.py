@@ -17,6 +17,7 @@ import pandas as pd
 import seaborn as sns
 from matplotlib.patches import PathPatch, Wedge
 from matplotlib.path import Path as MplPath
+from pyspark.sql import functions as F
 
 from pipelines.config import GOLD_DIR, SILVER, get_spark
 
